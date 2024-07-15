@@ -23,6 +23,7 @@ def main():
     dispatcher.add_handler(CommandHandler("test", test_command))
     dispatcher.add_handler(CommandHandler("test_server", test_server))
     dispatcher.add_handler(CommandHandler("generate_random_number", generate_random_number))
+    dispatcher.add_handler(CommandHandler("pokemon", getPokemon))
 
     try:
         updater.start_polling()

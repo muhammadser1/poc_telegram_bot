@@ -1,7 +1,7 @@
 from telegram import Update
 from telegram.ext import CommandHandler, CallbackContext
 import requests
-from constants import SERVER_URL
+from constants import *
 
 
 def start(update: Update, context: CallbackContext) -> None:
@@ -36,3 +36,17 @@ def generate_random_number(update: Update, context: CallbackContext) -> None:
 
     except requests.RequestException as e:
         update.message.reply_text(f"Error fetching data: {e}")
+
+
+def getPokemon(update: Update, context: CallbackContext) -> None:
+    args = context.args
+    if len(args) == 0:
+        update.message.reply_text('Please provide a Pokemon name. Example: /pokemon pikachu')
+    else:
+        pokemon_name = args[0]
+        try:
+            response = requests.get(f'{pokemon_url}{pokemon_name}')
+            data = response.json()
+            update.message.reply_text(f"Server says: {data}")
+        except requests.RequestException as e:
+            update.message.reply_text(f"Error fetching Pokemon data: {e}")
