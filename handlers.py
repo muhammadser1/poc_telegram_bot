@@ -1,7 +1,6 @@
 from telegram import Update
 from telegram.ext import CommandHandler, CallbackContext
 import requests
-
 from constants import SERVER_URL
 
 
@@ -22,6 +21,18 @@ def test_server(update: Update, context: CallbackContext) -> None:
         update.message.reply_text(f"Error fetching data: {e}")
 
 
-# start_server = CommandHandler("test_server", test_server)
-# start_handler = CommandHandler("start", start)
-# test_command_handler = CommandHandler("test", test_command)
+def generate_random_number(update: Update, context: CallbackContext) -> None:
+    try:
+        response = requests.post(f'{SERVER_URL}/random-numbers')
+        if response.status_code == 200:
+            data = response.json()
+            update.message.reply_text(f"Server says: {data}")
+        else:
+            error_message = f"Server returned status code: {response.status_code}"
+            if response.text:
+                error_message += f"\nServer response: {response.text}"
+            update.message.reply_text(error_message)
+
+
+    except requests.RequestException as e:
+        update.message.reply_text(f"Error fetching data: {e}")
