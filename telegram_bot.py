@@ -12,7 +12,11 @@ if not BOT_TOKEN:
 
 
 def main():
-    updater = Updater(BOT_TOKEN)
+    try:
+        updater = Updater(BOT_TOKEN)
+    except Exception as e:
+        print(f"Failed to initialize the updater: {e}")
+        return
     dispatcher = updater.dispatcher
 
     dispatcher.add_handler(CommandHandler("start", start))
@@ -20,7 +24,11 @@ def main():
     dispatcher.add_handler(CommandHandler("test_server", test_server))
     dispatcher.add_handler(CommandHandler("generate_random_number", generate_random_number))
 
-    updater.start_polling()
+    try:
+        updater.start_polling()
+    except Exception as e:
+        print(f"Failed to start polling: {e}")
+        return
     updater.idle()
 
 
