@@ -14,7 +14,7 @@ def test_command(update: Update, context: CallbackContext) -> None:
 
 def test_server(update: Update, context: CallbackContext) -> None:
     try:
-        response = requests.get(f'{SERVER_URL}/')
+        response = requests.get(f'{SERVER_URL}')
         data = response.json()
         update.message.reply_text(f"Server says: {data}")
     except requests.RequestException as e:
@@ -23,7 +23,7 @@ def test_server(update: Update, context: CallbackContext) -> None:
 
 def generate_random_number(update: Update, context: CallbackContext) -> None:
     try:
-        response = requests.post(f'{SERVER_URL}/random-numbers')
+        response = requests.get(f'{SERVER_URL}random-numbers')
         if response.status_code == 200:
             data = response.json()
             update.message.reply_text(f"Server says: {data}")
